@@ -5,15 +5,16 @@ from sqlalchemy.sql.functions import count
 import sys
 
 
-BATCH_SIZE = 100
-
-
 def main():
     parser = argparse.ArgumentParser('sqlalchemy-copy')
+    parser.add_argument('--batch-size', action='store', type=int, default=100)
     parser.add_argument('source_url')
     parser.add_argument('target_url', nargs=argparse.OPTIONAL)
     parser.add_argument('tables', nargs=argparse.ZERO_OR_MORE)
     args = parser.parse_args()
+
+    if args.batch_size < 1:
+        parser.error("Invalid batch size")
 
     # Connect to source
     src_engine = sqlalchemy.create_engine(args.source_url)
@@ -74,7 +75,7 @@ def main():
             while True:
                 batch = [
                     dict(row)
-                    for row in itertools.islice(rows, BATCH_SIZE)
+                    for row in itertools.islice(rows, args.batch_size)
                 ]
                 if not batch:
                     break
