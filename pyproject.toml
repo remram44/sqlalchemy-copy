@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "sqlalchemy-copy"
 version = "0.1.0"
-description = ""
+description = "Copy data between any databases supported by SQLAlchemy"
 authors = ["Remi Rampin <remi@rampin.org>"]
 license = "MIT"
 readme = "README.md"
