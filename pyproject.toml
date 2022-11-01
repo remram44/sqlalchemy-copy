@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "sqlalchemy-copy"
+version = "0.1.0"
+description = ""
+authors = ["Remi Rampin <remi@rampin.org>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "sqlalchemy_copy"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+SQLAlchemy = ">=1.3,<1.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
