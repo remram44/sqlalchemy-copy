@@ -1,11 +1,15 @@
 import argparse
 import itertools
+import logging
 import random
 import sqlalchemy
 import sqlalchemy.exc
 from sqlalchemy.sql.functions import count
 import sys
 import time
+
+
+logger = logging.getLogger('sqlalchemy_copy')
 
 
 backoff_idx = -1
@@ -44,6 +48,7 @@ else:
             and isinstance(err, psycopg2.OperationalError)
             and err.orig.pgcode == psycopg2.errorcodes.SERIALIZATION_FAILURE
        ):
+            logger.info("SERIALIZATION_FAILURE, retrying...")
             time.sleep(exponential_backoff(idx))
             return True
 
@@ -55,6 +60,11 @@ def main():
     parser.add_argument('target_url', nargs=argparse.OPTIONAL)
     parser.add_argument('tables', nargs=argparse.ZERO_OR_MORE)
     args = parser.parse_args()
+
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+    )
 
     if args.batch_size < 1:
         parser.error("Invalid batch size")
@@ -88,16 +98,10 @@ def main():
     missing = False
     for table in tables:
         if table not in src_metadata.tables:
-            print(
-                "Table %r doesn't exist in source" % table,
-                file=sys.stderr,
-            )
+            logger.critical("Table %r doesn't exist in source", table)
             missing = True
         if table not in tgt_metadata.tables:
-            print(
-                "Table %r doesn't exist in target" % table,
-                file=sys.stderr,
-            )
+            logger.critical("Table %r doesn't exist in target", table)
             missing = True
     if missing:
         sys.exit(1)
@@ -105,7 +109,7 @@ def main():
     # Copy
     with src_engine.connect() as src, tgt_engine.connect() as tgt:
         for table in tables:
-            print("\nCopying %r" % table)
+            logger.info("Copying %r", table)
             src_table = src_metadata.tables[table]
             tgt_table = tgt_metadata.tables[table]
             total_rows = src.execute(
@@ -114,7 +118,7 @@ def main():
             rows = src.execute(src_table.select())
             insert_stmt = sqlalchemy.insert(tgt_table)
             idx = 0
-            print('%d / %d' % (idx, total_rows))
+            logger.info('%d / %d', idx, total_rows)
             while True:
                 batch = [
                     dict(row)
@@ -141,7 +145,7 @@ def main():
                     else:
                         break
                 idx += len(batch)
-                print('%d / %d' % (idx, total_rows))
+                logger.info('%d / %d', idx, total_rows)
 
 
 if __name__ == '__main__':
