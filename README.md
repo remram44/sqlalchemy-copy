@@ -15,7 +15,7 @@ Table('people')
     Index('idx_people_name', Column('name', TEXT(), table=<people>, nullable=False))
 
 # Copy specific table
-$ python sqlalchemy_copy.py sqlite:///test.sqlite3 postgresql://postgres:hackme@127.0.0.1/testdb --batch-size 50 people_table
+$ python sqlalchemy_copy.py --batch-size 50 sqlite:///test.sqlite3 postgresql://postgres:hackme@127.0.0.1/testdb people_table
 Copying 'people_table'
 0 / 72
 50 / 72
