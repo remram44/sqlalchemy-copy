@@ -11,6 +11,14 @@ docs = ["Sphinx", "docutils (<0.18)"]
 test = ["faulthandler", "objgraph"]
 
 [[package]]
+name = "psycopg2"
+version = "2.9.5"
+description = "psycopg2 - Python-PostgreSQL Database Adapter"
+category = "main"
+optional = true
+python-versions = ">=3.6"
+
+[[package]]
 name = "SQLAlchemy"
 version = "1.4.42"
 description = "Database Abstraction Library"
@@ -42,10 +50,25 @@ postgresql_psycopg2cffi = ["psycopg2cffi"]
 pymysql = ["pymysql", "pymysql (<1)"]
 sqlcipher = ["sqlcipher3_binary"]
 
+[[package]]
+name = "sqlalchemy-cockroachdb"
+version = "1.4.4"
+description = "CockroachDB dialect for SQLAlchemy"
+category = "main"
+optional = true
+python-versions = "*"
+
+[package.dependencies]
+SQLAlchemy = "*"
+
+[extras]
+cockroachdb = ["psycopg2", "sqlalchemy-cockroachdb"]
+postgres = ["psycopg2"]
+
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "28d2ac157dc8d982e1f0098f40554ac5943e912c38005905d3767b784cdc90e0"
+content-hash = "5cdd860e14f22378ab3848fef76b988ab74b6a60ecdbff0085d390286d0575b4"
 
 [metadata.files]
 greenlet = [
@@ -105,6 +128,19 @@ greenlet = [
     {file = "greenlet-2.0.0-cp39-cp39-win_amd64.whl", hash = "sha256:bc283f99a4815ef70cad537110e3e03abcef56ab7d005ba9a8c6ec33054ce9c0"},
     {file = "greenlet-2.0.0.tar.gz", hash = "sha256:6c66f0da8049ee3c126b762768179820d4c0ae0ca46ae489039e4da2fae39a52"},
 ]
+psycopg2 = [
+    {file = "psycopg2-2.9.5-cp310-cp310-win32.whl", hash = "sha256:d3ef67e630b0de0779c42912fe2cbae3805ebaba30cda27fea2a3de650a9414f"},
+    {file = "psycopg2-2.9.5-cp310-cp310-win_amd64.whl", hash = "sha256:4cb9936316d88bfab614666eb9e32995e794ed0f8f6b3b718666c22819c1d7ee"},
+    {file = "psycopg2-2.9.5-cp36-cp36m-win32.whl", hash = "sha256:b9ac1b0d8ecc49e05e4e182694f418d27f3aedcfca854ebd6c05bb1cffa10d6d"},
+    {file = "psycopg2-2.9.5-cp36-cp36m-win_amd64.whl", hash = "sha256:fc04dd5189b90d825509caa510f20d1d504761e78b8dfb95a0ede180f71d50e5"},
+    {file = "psycopg2-2.9.5-cp37-cp37m-win32.whl", hash = "sha256:922cc5f0b98a5f2b1ff481f5551b95cd04580fd6f0c72d9b22e6c0145a4840e0"},
+    {file = "psycopg2-2.9.5-cp37-cp37m-win_amd64.whl", hash = "sha256:1e5a38aa85bd660c53947bd28aeaafb6a97d70423606f1ccb044a03a1203fe4a"},
+    {file = "psycopg2-2.9.5-cp38-cp38-win32.whl", hash = "sha256:f5b6320dbc3cf6cfb9f25308286f9f7ab464e65cfb105b64cc9c52831748ced2"},
+    {file = "psycopg2-2.9.5-cp38-cp38-win_amd64.whl", hash = "sha256:1a5c7d7d577e0eabfcf15eb87d1e19314c8c4f0e722a301f98e0e3a65e238b4e"},
+    {file = "psycopg2-2.9.5-cp39-cp39-win32.whl", hash = "sha256:322fd5fca0b1113677089d4ebd5222c964b1760e361f151cbb2706c4912112c5"},
+    {file = "psycopg2-2.9.5-cp39-cp39-win_amd64.whl", hash = "sha256:190d51e8c1b25a47484e52a79638a8182451d6f6dff99f26ad9bd81e5359a0fa"},
+    {file = "psycopg2-2.9.5.tar.gz", hash = "sha256:a5246d2e683a972e2187a8714b5c2cf8156c064629f9a9b1a873c1730d9e245a"},
+]
 SQLAlchemy = [
     {file = "SQLAlchemy-1.4.42-cp27-cp27m-macosx_10_14_x86_64.whl", hash = "sha256:28e881266a172a4d3c5929182fde6bb6fba22ac93f137d5380cc78a11a9dd124"},
     {file = "SQLAlchemy-1.4.42-cp27-cp27m-manylinux_2_5_x86_64.manylinux1_x86_64.whl", hash = "sha256:ca9389a00f639383c93ed00333ed763812f80b5ae9e772ea32f627043f8c9c88"},
@@ -147,4 +183,8 @@ SQLAlchemy = [
     {file = "SQLAlchemy-1.4.42-cp39-cp39-win32.whl", hash = "sha256:e4ef8cb3c5b326f839bfeb6af5f406ba02ad69a78c7aac0fbeeba994ad9bb48a"},
     {file = "SQLAlchemy-1.4.42-cp39-cp39-win_amd64.whl", hash = "sha256:5f966b64c852592469a7eb759615bbd351571340b8b344f1d3fa2478b5a4c934"},
     {file = "SQLAlchemy-1.4.42.tar.gz", hash = "sha256:177e41914c476ed1e1b77fd05966ea88c094053e17a85303c4ce007f88eff363"},
+]
+sqlalchemy-cockroachdb = [
+    {file = "sqlalchemy-cockroachdb-1.4.4.tar.gz", hash = "sha256:d31bfa5e5dc964177598431c3d6a85f670d87462bce3c02f06439bb73d8804a7"},
+    {file = "sqlalchemy_cockroachdb-1.4.4-py3-none-any.whl", hash = "sha256:84b23f452efba000e16c9157282ca6fb132dd04de9cda715902a4583a59461c7"},
 ]

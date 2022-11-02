@@ -9,7 +9,18 @@ packages = [{include = "sqlalchemy_copy"}]
 
 [tool.poetry.dependencies]
 python = "^3.8"
+psycopg2 = {version = "*", optional = true}
 SQLAlchemy = ">=1.3,<1.5"
+sqlalchemy-cockroachdb = {version = "*", optional = true}
+
+[tool.poetry.extras]
+postgres = [
+    "psycopg2",
+]
+cockroachdb = [
+    "psycopg2",
+    "sqlalchemy-cockroachdb",
+]
 
 [build-system]
 requires = ["poetry-core"]
